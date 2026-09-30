@@ -17,7 +17,7 @@ description: 從 FinMind API 獲取台灣股市個股與大盤指數的融資融
 - `pandas`
 - `requests`
 - `numpy`
-- 可設定 `FINMIND_TOKEN`、`FINMIND_API_TOKEN`、`FINMIND_TOKEN1`、`FINMIND_TOKEN2`；所有非空 token 會按 request round-robin rotation 使用。
+- 可設定 `FINMIND_TOKEN`、`FINMIND_API_TOKEN`、`FINDMIND_GMAIL_TOKEN`、`FINDMIND_GMAIL_TOKEN1`、`FINDMIND_GMAIL_TOKEN2`；所有非空 token 會按 request round-robin rotation 使用。
 
 ## 核心腳本與指令
 

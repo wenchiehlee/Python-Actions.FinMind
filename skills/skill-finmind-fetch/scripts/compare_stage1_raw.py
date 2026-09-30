@@ -17,7 +17,6 @@ Reports, per type:
 """
 from __future__ import annotations
 import argparse
-import re
 import sys
 from pathlib import Path
 
@@ -33,42 +32,10 @@ import status_common
 METADATA_COLUMNS = {"file_type", "source_file", "download_success",
                      "download_timestamp", "process_timestamp", "stage1_process_timestamp"}
 
-# 期間欄位候選名稱：不同 type 的期間欄位名稱不同（季度/年度/月別/交易_週別/期別），
-# 且部分 type（如 raw_performance1／raw_performance）在 company_name 之後還夾著
-# 一批成交價相關的空白欄位，期間欄位不一定落在固定的第 3 欄，所以改用欄名查找。
-PERIOD_COLUMN_CANDIDATES = ["季度", "年度", "月別", "交易_週別", "期別", "日期"]
-
-# 同一個 quarter 在 GoodInfo（"2026Q2"）與 FinMind（"2026/2"）兩邊的表示法不同，
-# 比對前先正規化成統一格式，否則就算欄位對上了也永遠 join 不到任何一列。
-_QUARTER_SLASH_RE = re.compile(r"^(\d{4})/([1-4])$")
-
-
-def find_period_col(df: pd.DataFrame) -> str:
-    for name in PERIOD_COLUMN_CANDIDATES:
-        if name in df.columns:
-            return name
-    return df.columns[2]
-
-
-def normalize_period(value: str) -> str:
-    if not isinstance(value, str):
-        return value
-    match = _QUARTER_SLASH_RE.match(value.strip())
-    if match:
-        return f"{match.group(1)}Q{match.group(2)}"
-    return value.strip()
-
 
 def load(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path, dtype=str, encoding="utf-8-sig")
     df["stock_code"] = df["stock_code"].str.zfill(4)
-    # GoodInfo 用單獨一個 "-" 字元代表「這欄沒有值」（例如財報還沒完全公布），
-    # 視為缺值而非一個真正的字串值，否則後面數值比對會誤判成「差異」。
-    non_dash_columns = {"stock_code", "company_name"}
-    for col in df.columns:
-        if col in non_dash_columns:
-            continue
-        df[col] = df[col].where(df[col] != "-", pd.NA)
     return df
 
 
@@ -90,15 +57,10 @@ def values_differ(a, b, tolerance: float) -> bool:
 def compare(ours_path: Path, reference_path: Path, tolerance: float, examples: int) -> None:
     ours = load(ours_path)
     reference = load(reference_path)
-    period_col = find_period_col(ours)
-    reference_period_col = find_period_col(reference)
-    if reference_period_col != period_col:
-        print(f"  WARNING: period column name differs (ours={period_col!r}, reference={reference_period_col!r}); "
-              f"using ours's column name for the join key")
-        reference = reference.rename(columns={reference_period_col: period_col})
-
-    ours[period_col] = ours[period_col].map(normalize_period)
-    reference[period_col] = reference[period_col].map(normalize_period)
+    period_col = ours.columns[2]
+    if reference.columns[2] != period_col:
+        print(f"  WARNING: period column differs (ours={period_col!r}, reference={reference.columns[2]!r}); "
+              f"using ours for the join key")
 
     ours = ours.set_index(["stock_code", period_col])
     reference = reference.set_index(["stock_code", period_col])

@@ -39,6 +39,16 @@
       "repo": "wenchiehlee/skills",
       "role": "registry",
       "local_path": "github.com/skills/common/skill-finmind-fetch"
+    },
+    {
+      "repo": "wenchiehlee/Python-Actions.FinMind",
+      "role": "consumer",
+      "local_path": "github.com/Python-Actions.FinMind/skills/skill-finmind-fetch"
+    },
+    {
+      "repo": "wenchiehlee/GoogleSearch.Factset",
+      "role": "consumer",
+      "local_path": "github.com/GoogleSearch.Factset/skills/skill-finmind-fetch"
     }
   ]
 }
