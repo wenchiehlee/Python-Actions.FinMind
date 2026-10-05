@@ -1,15 +1,22 @@
 """FinMind token resolution and quota-aware rotation."""
 import os
 import requests
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
+_repo_env = Path(__file__).resolve().parents[3] / ".env"
+if _repo_env.exists():
+    load_dotenv(_repo_env)
+
 
 TOKEN_ENV_NAMES = (
-    "FINMIND_TOKEN", "FINMIND_API_TOKEN", "FINDMIND_GMAIL_TOKEN",
-    "FINDMIND_GMAIL_TOKEN1", "FINDMIND_GMAIL_TOKEN2",
+    "FINMIND_TOKEN", "FINMIND_API_TOKEN",
+    "FINMIND_TOKEN1", "FINMIND_TOKEN2", "FINMIND_TOKEN3",
+    "FINMIND_TOKEN4", "FINMIND_TOKEN5", "FINMIND_TOKEN6", "FINMIND_TOKEN7",
+    "FINDMIND_GMAIL_TOKEN", "FINDMIND_GMAIL_TOKEN1", "FINDMIND_GMAIL_TOKEN2",
     "FINDMIND_GMAIL_TOKEN3", "FINDMIND_GMAIL_TOKEN4", "FINDMIND_GMAIL_TOKEN5",
-    "FINDMIND_GMAIL_TOKEN6",
+    "FINDMIND_GMAIL_TOKEN6", "FINDMIND_GMAIL_TOKEN7",
 )
 QUOTA_URL = "https://api.web.finmindtrade.com/v2/user_info"
 

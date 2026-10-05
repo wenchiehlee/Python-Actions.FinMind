@@ -32,6 +32,7 @@ jobs:
       FINMIND_TOKEN4: ${{ secrets.FINMIND_TOKEN4 }}
       FINMIND_TOKEN5: ${{ secrets.FINMIND_TOKEN5 }}
       FINMIND_TOKEN6: ${{ secrets.FINMIND_TOKEN6 }}
+      FINMIND_TOKEN7: ${{ secrets.FINMIND_TOKEN7 }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
