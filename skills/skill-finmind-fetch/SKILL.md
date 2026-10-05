@@ -17,7 +17,7 @@ description: 從 FinMind API 獲取台灣股市個股與大盤指數的融資融
 - `pandas`
 - `requests`
 - `numpy`
-- 可設定 `FINMIND_TOKEN`、`FINMIND_API_TOKEN`、`FINDMIND_GMAIL_TOKEN`、`FINDMIND_GMAIL_TOKEN1`、`FINDMIND_GMAIL_TOKEN2`；所有非空 token 會按 request round-robin rotation 使用。
+- 可設定 `FINMIND_TOKEN`、`FINMIND_API_TOKEN`、`FINMIND_TOKEN1`..`FINMIND_TOKEN7`、`FINDMIND_GMAIL_TOKEN`、`FINDMIND_GMAIL_TOKEN1`..`FINDMIND_GMAIL_TOKEN7`；所有非空 token 會依當前剩餘配額多寡排序並按 request round-robin rotation 自動輪替使用。
 
 ## 核心腳本與指令
 
@@ -200,6 +200,26 @@ python skills/skill-finmind-fetch/scripts/fetch_type6.py \
 ```
 
 使用 FinMind `TaiwanStockShareholding`（每週資料，取每年最後一筆作為年度快照）。FinMind 只提供僑外資合計持股比例，GoodInfo 的政府機構/金融機構/證券投信/本國法人/本國自然人等細項沒有對應資料來源，留空，不臆測。
+
+## Token 配額池與階層化調度策略 (Quota Pool & Tiered Priority Strategy)
+
+### 1. Token 配額架構與輪替
+- 每個 FinMind 帳號提供 **600 requests / hr** 的 API 額度（按整點/滾動小時重置，非每日重置）。
+- 支援透過環境變數池（`FINMIND_TOKEN1`..`FINMIND_TOKEN7`、`FINDMIND_GMAIL_TOKEN1`..`FINDMIND_GMAIL_TOKEN7`）進行輪替調度：
+  - **7 組 Token 額度池**：`7 × 600 = 4,200 requests / hr`。
+  - 當遇到 HTTP 402 或超出額度限制時，自動暫退該 Token 並無縫切換至下一個有效 Token。
+
+### 2. 階層化股票更新需求與配額模型 (Tiered Prioritization)
+台股全市場（Universe）共有 1,733+ 檔上市櫃股票。若每次排程對全市場所有個股無差別拉取，單檔完整更新需打約 3~4 次 API（股價、財報、股利、基本資料），全市場一次即需 5,000 ~ 7,000 次 API，將瞬時擊穿單小時配額池導致大量 402 錯誤。
+因此依商業價值與市場趨勢實施階層化調度：
+
+| 層級 (Tier) | 範疇定義 | 實體檔數 | 更新頻率 | 每次 API 消耗 | 調度與額度策略 |
+| :--- | :--- | :---: | :--- | :---: | :--- |
+| **Tier 1 (Focus)** | 核心重倉與必看持股（`StockID_TWSE_TPEX_focus.csv`） | 37 檔 | **每日必新 (Daily)** | ~148 次 | 每日首批執行，佔小時配額 <4%，永不延遲。 |
+| **Tier 2 (AI + Obs)** | **AI 強勢主題股** (AI伺服器/邊緣AI/NVIDIA鏈/CoWoS/CPO/HBM/資料中心等) 與核心觀察池（`StockID_TWSE_TPEX.csv`） | 436 檔 | **每日必新 (Daily)** | ~1,744 次 | 接在 Tier 1 後執行。Tier 1+2 總共僅 ~1,892 次，在單一小時（4,200 次）內即可 100% 完整完成。 |
+| **Tier 3 (Other Themes)** | 次要產業主題（蘋果鏈、電動車、低軌衛星、工業電腦、半導體材料等） | 373 檔 | **2~3 天 / 週頻** | ~1,492 次 | 安排於後續排程（如 04:00/07:00）或特定交易日批次輪替更新。 |
+| **Tier 4 (Universe Tail)** | 全市場冷門長尾個股 | 919 檔 | **雙週 / 季報事件驅動** | ~3,676 次 | 平時跳過，分 14 天平攤（每天僅 ~260 次）或僅於每季財報與除權息公布期間觸發。 |
+| **合計總消耗** | **全市場階層化排程** | **1,733 檔** | — | **~2,652 次 / 日** | **遠低於每日總額度池，安全率高達 80% 以上。** |
 
 ## Parity 驗證
 
