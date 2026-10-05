@@ -8,6 +8,7 @@ exactly, so this repo's output can be dropped in as a source for it.
 from __future__ import annotations
 import argparse
 import csv
+from datetime import datetime, timezone
 import sys
 from pathlib import Path
 
@@ -53,11 +54,24 @@ def combine_type(financial_root: Path, type_id: str, stem: str) -> tuple[Path, i
                     continue
                 if header is None:
                     header = file_header
+                    if type_id == "16":
+                        schema_path = ROOT / "skills" / "skill-finmind-fetch" / "schemas" / "raw_fin_ratio_quarter_header.csv"
+                        with schema_path.open(encoding="utf-8-sig", newline="") as schema_handle:
+                            expected_header = next(csv.reader(schema_handle), None)
+                        if file_header != expected_header:
+                            raise SystemExit(
+                                f"Type 16 schema mismatch in {path}: expected canonical Analyzer-compatible header"
+                            )
                     writer = csv.writer(out_handle)
                     writer.writerow(header)
                 elif file_header != header:
                     raise SystemExit(f"Column mismatch in {path}: expected {header}, got {file_header}")
+                process_timestamp = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
                 for row in reader:
+                    if type_id == "16":
+                        for field in ("process_timestamp", "stage1_process_timestamp"):
+                            if field in header:
+                                row[header.index(field)] = process_timestamp
                     writer.writerow(row)
                     row_count += 1
     return out_path, row_count
