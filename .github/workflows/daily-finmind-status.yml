@@ -43,6 +43,7 @@ jobs:
       - name: Download observation list
         run: python Get觀察名單.py
       - name: Fetch FinMind CSV data
+        continue-on-error: true
         run: |
           TYPES_ARG=""
           if [ -n "${{ github.event.inputs.types }}" ]; then
