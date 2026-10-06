@@ -56,10 +56,15 @@ jobs:
           fi
           python scripts/fetch_daily_finmind.py --stock-list StockID_TWSE_TPEX.csv $TYPES_ARG
       - name: Update README status
+        if: always()
+        continue-on-error: true
         run: python scripts/download_results_counts.py --stock-list StockID_TWSE_TPEX.csv --update-readme
       - name: Build stage1_raw combined CSVs
+        if: always()
+        continue-on-error: true
         run: python scripts/build_stage1_raw.py
       - name: Commit status
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
