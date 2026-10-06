@@ -66,6 +66,7 @@ def fetch_data(dataset, data_id=None, start_date=None, end_date=None, token=None
             return pd.DataFrame(res.get("data", []))
         msg = str(res.get("msg", "")).strip().lower()
         quota_exhausted = res.get("status") == 402 or "reach the upper limit" in msg
+        logger.warning("FinMind API rejected dataset %s for %s: status=%s message=%s", dataset, data_id, res.get("status"), res.get("msg", ""))
         if isinstance(token, TokenRotator) and ("token is illegal" in msg or quota_exhausted):
             token.retire(request_token)
             if token.count:

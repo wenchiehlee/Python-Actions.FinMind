@@ -164,6 +164,9 @@ def main():
     # the selected types are tracked, so an unselected type's existing log is
     # left untouched rather than overwritten with a cruder fallback.
     type_rows: dict[str, list] = {t: [] for t in selected_types}
+    # A green workflow must mean every selected type fetched at least one row.
+    # Otherwise stage1 rebuilds can republish stale files as a false success.
+    type_success: dict[str, bool] = {t: False for t in selected_types}
 
     # One combined Type 13 request loop; Type 14/15 reuse this file locally.
     # The path is always defined even when Type 13 itself isn't selected, so
@@ -175,6 +178,7 @@ def main():
                 "--start-date", args.start_date, "--end-date", end,
                 "--output-csv", type13], 0, "type13", preserve_pool=True)[0]:
             ok += 1
+            type_success["13"] = True
 
     jobs = [
         ("1", "fetch_type1.py", "raw_dividends", "2018-01-01"),
@@ -208,6 +212,7 @@ def main():
             success, output_text = run(command, index, f"type{type_id}/{code}")
             if success:
                 ok += 1
+                type_success[type_id] = True
             status = classify_status(type_id, success, output_text)
             type_rows[type_id].append(result_row(f"{stem}_{code}.csv", success, process_time, status=status))
 
@@ -224,6 +229,7 @@ def main():
             success, output_text = run(command, index, f"type{type_id}/{code}")
             if success:
                 ok += 1
+                type_success[type_id] = True
             status = classify_status(type_id, success, output_text)
             type_rows[type_id].append(result_row(f"{stem}_{code}.csv", success, process_time, status=status))
     print(f"Completed fetch commands: {ok}", flush=True)
@@ -249,6 +255,9 @@ def main():
             rows.append(result_row(f"{stem}_0000.csv", False, process_time, status="no_data"))
         write_results(financial_root / f"type{type_id}" / "download_results.csv", rows)
     print("Wrote download_results.csv logs for active types", flush=True)
+    failed_types = sorted((type_id for type_id, success in type_success.items() if not success), key=int)
+    if failed_types:
+        raise SystemExit("No successful fetch completed for selected type(s): " + ", ".join(failed_types))
 
 
 if __name__ == "__main__":
