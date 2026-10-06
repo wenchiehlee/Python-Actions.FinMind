@@ -60,6 +60,7 @@ TOKEN_NAMES = (
     "FINMIND_TOKEN4", "FINMIND_TOKEN5", "FINMIND_TOKEN6", "FINMIND_TOKEN7",
 )
 TOKEN_ORDER = []
+RATE_LIMITED = False
 MIN_QUOTA_HEADROOM = 20  # skip a token's round-robin slot once it's this close to its hourly 402 cutoff
 PYTHON = sys.executable
 SCRIPTS = ROOT / "skills" / "skill-finmind-fetch" / "scripts"
@@ -93,8 +94,14 @@ def token_env(index: int):
 
 
 def run(args, token_index: int, label: str, preserve_pool: bool = False) -> tuple[bool, str]:
+    global RATE_LIMITED
     command = [PYTHON, *map(str, args)]
-    print(f"[{label}] {Path(command[1]).name if len(command) > 1 else label}", flush=True)
+    script_name = Path(command[1]).name if len(command) > 1 else label
+    local_only = script_name in {"fetch_type14.py", "fetch_type15.py"}
+    if RATE_LIMITED and not local_only:
+        print(f"[{label}] skipped after persistent FinMind rate limit", flush=True)
+        return False, "FINMIND_RATE_LIMITED_SKIP"
+    print(f"[{label}] {script_name}", flush=True)
     env = os.environ.copy() if preserve_pool else token_env(token_index)
     completed = subprocess.run(command, cwd=ROOT, env=env, capture_output=True, text=True)
     output_text = completed.stdout + completed.stderr
@@ -102,6 +109,9 @@ def run(args, token_index: int, label: str, preserve_pool: bool = False) -> tupl
         print(output_text, end="" if output_text.endswith("\n") else "\n", flush=True)
     if "FINMIND_STOP_RUN:" in output_text:
         raise SystemExit("Stopping FinMind run after all configured tokens rejected one request")
+    if "FINMIND_RATE_LIMITED_SKIP:" in output_text:
+        RATE_LIMITED = True
+        print("Persistent FinMind rate limit detected; skipping remaining remote API jobs", flush=True)
     if completed.returncode:
         print(f"[{label}] failed with exit code {completed.returncode}", flush=True)
         return False, output_text

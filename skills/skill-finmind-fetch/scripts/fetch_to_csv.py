@@ -159,6 +159,14 @@ def fetch_data(dataset, data_id=None, start_date=None, end_date=None, token=None
                     time.sleep(delay)
                     continue
 
+                if remaining is not None and remaining > 0:
+                    logger.error(
+                        "FINMIND_RATE_LIMITED_SKIP: %s/%s remained rate-limited "
+                        "after backoff; skipping this request without rotating the pool",
+                        dataset, data_id,
+                    )
+                    return pd.DataFrame()
+
                 if isinstance(token, TokenRotator):
                     token.retire(request_token)
                     if token.count:

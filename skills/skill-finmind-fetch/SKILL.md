@@ -225,7 +225,7 @@ python skills/skill-finmind-fetch/scripts/fetch_type6.py \
 
 - FinMind 回傳 HTTP/API `402`、`reach the upper limit` 或連續 4xx 時，不可假設只是單一 Token 額度耗盡；也可能是共享 IP、資料集或帳戶層級的暫時限流。`user_info` 顯示剩餘額度不代表資料 API 一定會接受下一個請求。
 - 若 402 後 quota check 顯示仍有剩餘額度，保留同一 Token，預設退避 30 秒、90 秒、300 秒後重試同一請求；不可立即把所有 Token 輪替一遍。
-- quota 確實為 0 才 retire Token；退避次數用完仍被拒絕時，停止該請求並留下可重試的失敗紀錄，避免無限重試。
+- quota 確實為 0 才 retire Token；若 quota 仍有剩餘但退避次數用完，標記 `FINMIND_RATE_LIMITED_SKIP` 並跳過該請求，不得輪替整個 Token 池或無限重試。批次 runner 應停止後續遠端 API 子程序，保留已完成結果。
 - 優先讀取既有 CSV/上游同步快照，只補抓最後日期之後的缺口；不要每天重新下載不會變動的歷史 K 棒或財務資料。
 - 批次流程應讓單一股票或資料集失敗可記錄並跳過，避免一筆限流錯誤使整批已完成資料遺失。
 
