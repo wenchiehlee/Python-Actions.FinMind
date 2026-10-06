@@ -12,8 +12,14 @@ from token_env import TokenRotator
 load_dotenv()
 COLUMNS=['stock_code','company_name','交易_週別','交易_日數','開盤_價格_元','最高_價格_元','最低_價格_元','收盤_價格_元','漲跌_價格_元','漲跌_pct','振幅_pct','成交_張數','成交_金額_億','法人買賣超_千張','外資_淨買超_千張','投信_淨買超_千張','自營_淨買超_千張','法人_合計_千張','外資_持股_pct','融資_增減_張','融資_餘額_張','融券_增減_張','融券_餘額_張','券資比_pct','融券_千張_增減','融券_千張_餘額','券資_比_pct','file_type','source_file','download_success','download_timestamp','process_timestamp','stage1_process_timestamp']
 def build(stock_id,name,price,inst,margin):
+ if price.empty:
+  return pd.DataFrame(columns=COLUMNS)
  p=price.copy(); i=inst.copy();
- p['date']=pd.to_datetime(p.date,errors='coerce'); p=p.dropna(subset=['date']).sort_values('date'); i['date']=pd.to_datetime(i.date,errors='coerce');
+ p['date']=pd.to_datetime(p.date,errors='coerce'); p=p.dropna(subset=['date']).sort_values('date');
+ if i.empty or 'date' not in i.columns:
+  i=pd.DataFrame({'date': pd.Series(dtype='datetime64[ns]')})
+ else:
+  i['date']=pd.to_datetime(i.date,errors='coerce');
  m=process_stock_data(stock_id,price,margin,name) if not price.empty and not margin.empty else pd.DataFrame();
  if not m.empty:m['date']=pd.to_datetime(m['期別'].str.lstrip("'"),format='%y/%m/%d')
  p['_week']=p.date-pd.to_timedelta(p.date.dt.weekday,unit='D'); rows=[]; prev=np.nan; stamp=datetime.now().isoformat(timespec='seconds')

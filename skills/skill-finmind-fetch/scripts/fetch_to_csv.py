@@ -26,6 +26,28 @@ logger = logging.getLogger(__name__)
 
 # FinMind API URL
 FINMIND_URL = "https://api.finmindtrade.com/api/v4/data"
+QUOTA_URL = "https://api.web.finmindtrade.com/v2/user_info"
+
+def quota_snapshot(token):
+    """Read quota immediately after a rejected data request without exposing token."""
+    if not token:
+        return "no-token"
+    try:
+        response = requests.get(
+            QUOTA_URL,
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=10,
+        )
+        payload = response.json()
+        limit = int(payload.get("api_request_limit", 0) or 0)
+        used = int(payload.get("user_count", 0) or 0)
+        remaining = max(limit - used, 0) if limit > 0 else None
+        return (
+            f"user_info_status={response.status_code} "
+            f"user_count={used} api_request_limit={limit} remaining={remaining}"
+        )
+    except (requests.RequestException, ValueError, TypeError) as exc:
+        return f"user_info_check_failed={type(exc).__name__}"
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Fetch Taiwan stock margin and price data from FinMind API and export/merge to CSV.")
@@ -60,13 +82,15 @@ def fetch_data(dataset, data_id=None, start_date=None, end_date=None, token=None
         params["token"] = request_token
         
     try:
-        r = requests.get(FINMIND_URL, params=params)
+        r = requests.get(FINMIND_URL, params=params, timeout=60)
         res = r.json()
         if r.ok and res.get("status") == 200:
             return pd.DataFrame(res.get("data", []))
         msg = str(res.get("msg", "")).strip().lower()
         quota_exhausted = res.get("status") == 402 or "reach the upper limit" in msg
         logger.warning("FinMind API rejected dataset %s for %s: status=%s message=%s", dataset, data_id, res.get("status"), res.get("msg", ""))
+        if quota_exhausted or "token is illegal" in msg:
+            logger.warning("FinMind quota snapshot after rejection for %s/%s: %s", dataset, data_id, quota_snapshot(request_token))
         if isinstance(token, TokenRotator) and ("token is illegal" in msg or quota_exhausted):
             token.retire(request_token)
             if token.count:
