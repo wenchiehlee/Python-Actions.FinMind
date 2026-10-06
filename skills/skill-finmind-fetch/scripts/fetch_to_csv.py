@@ -28,10 +28,14 @@ logger = logging.getLogger(__name__)
 FINMIND_URL = "https://api.finmindtrade.com/api/v4/data"
 QUOTA_URL = "https://api.web.finmindtrade.com/v2/user_info"
 
+class FinMindQuotaExhausted(RuntimeError):
+    """All configured tokens failed the same data request."""
+
+
 def quota_snapshot(token):
     """Read quota immediately after a rejected data request without exposing token."""
     if not token:
-        return "no-token"
+        return {"status": None, "user_count": None, "limit": None, "remaining": None}
     try:
         response = requests.get(
             QUOTA_URL,
@@ -42,12 +46,42 @@ def quota_snapshot(token):
         limit = int(payload.get("api_request_limit", 0) or 0)
         used = int(payload.get("user_count", 0) or 0)
         remaining = max(limit - used, 0) if limit > 0 else None
-        return (
-            f"user_info_status={response.status_code} "
-            f"user_count={used} api_request_limit={limit} remaining={remaining}"
-        )
+        return {
+            "status": response.status_code,
+            "user_count": used,
+            "limit": limit,
+            "remaining": remaining,
+        }
     except (requests.RequestException, ValueError, TypeError) as exc:
-        return f"user_info_check_failed={type(exc).__name__}"
+        return {
+            "status": None,
+            "user_count": None,
+            "limit": None,
+            "remaining": None,
+            "error": type(exc).__name__,
+        }
+
+
+def log_quota_pool(rotator, dataset, data_id):
+    """Log all token quota snapshots once for the current child process."""
+    snapshots = []
+    for slot, candidate in enumerate(getattr(rotator, "_tokens", []), start=1):
+        snapshot = quota_snapshot(candidate)
+        snapshots.append(snapshot)
+        logger.warning(
+            "FinMind quota snapshot after 402 for %s/%s token-slot=%s "
+            "user_info_status=%s user_count=%s api_request_limit=%s remaining=%s%s",
+            dataset,
+            data_id,
+            slot,
+            snapshot.get("status"),
+            snapshot.get("user_count"),
+            snapshot.get("limit"),
+            snapshot.get("remaining"),
+            f" error={snapshot['error']}" if snapshot.get("error") else "",
+        )
+    return snapshots
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Fetch Taiwan stock margin and price data from FinMind API and export/merge to CSV.")
@@ -89,16 +123,36 @@ def fetch_data(dataset, data_id=None, start_date=None, end_date=None, token=None
         msg = str(res.get("msg", "")).strip().lower()
         quota_exhausted = res.get("status") == 402 or "reach the upper limit" in msg
         logger.warning("FinMind API rejected dataset %s for %s: status=%s message=%s", dataset, data_id, res.get("status"), res.get("msg", ""))
-        if quota_exhausted or "token is illegal" in msg:
-            logger.warning("FinMind quota snapshot after rejection for %s/%s: %s", dataset, data_id, quota_snapshot(request_token))
+        if (
+            isinstance(token, TokenRotator)
+            and (quota_exhausted or "token is illegal" in msg)
+        ):
+            if not getattr(token, "_quota_pool_reported", False):
+                token._quota_pool_reported = True
+                token._quota_snapshots = log_quota_pool(token, dataset, data_id)
         if isinstance(token, TokenRotator) and ("token is illegal" in msg or quota_exhausted):
             token.retire(request_token)
             if token.count:
                 return fetch_data(dataset, data_id, start_date, end_date, token)
-            logger.error("FinMind rejected all configured tokens")
-            return pd.DataFrame()
+            snapshots = getattr(token, "_quota_snapshots", [])
+            all_zero = bool(snapshots) and all(
+                item.get("remaining") == 0 for item in snapshots
+            )
+            state = "quota exhausted" if all_zero else "quota status mismatch"
+            logger.error(
+                "FINMIND_STOP_RUN: %s after all configured tokens rejected "
+                "dataset=%s data_id=%s",
+                state,
+                dataset,
+                data_id,
+            )
+            raise FinMindQuotaExhausted(
+                f"FINMIND_STOP_RUN: {state}; dataset={dataset}; data_id={data_id}"
+            )
         logger.warning(f"FinMind API return status {res.get('status')} for dataset {dataset}: {res.get('msg')}")
         return pd.DataFrame()
+    except FinMindQuotaExhausted:
+        raise
     except Exception as e:
         # Never log requests' URL, because it may contain the token query parameter.
         logger.error(f"Error fetching dataset {dataset} for {data_id}: {type(e).__name__}: request failed")

@@ -100,6 +100,8 @@ def run(args, token_index: int, label: str, preserve_pool: bool = False) -> tupl
     output_text = completed.stdout + completed.stderr
     if output_text:
         print(output_text, end="" if output_text.endswith("\n") else "\n", flush=True)
+    if "FINMIND_STOP_RUN:" in output_text:
+        raise SystemExit("Stopping FinMind run after all configured tokens rejected one request")
     if completed.returncode:
         print(f"[{label}] failed with exit code {completed.returncode}", flush=True)
         return False, output_text
