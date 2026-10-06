@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import logging
+import time
 from dotenv import load_dotenv
 from token_env import TokenRotator
 
@@ -104,59 +105,78 @@ def parse_args():
     return parser.parse_args()
 
 def fetch_data(dataset, data_id=None, start_date=None, end_date=None, token=None):
-    params = {
-        "dataset": dataset,
-        "start_date": start_date,
-        "end_date": end_date
-    }
-    if data_id:
-        params["data_id"] = data_id
+    """Fetch data with quota-aware rotation and shared-limit backoff."""
+    backoff_seconds = (30, 90, 300)
     request_token = token.next() if isinstance(token, TokenRotator) else token
-    if request_token:
-        params["token"] = request_token
-        
-    try:
-        r = requests.get(FINMIND_URL, params=params, timeout=60)
-        res = r.json()
-        if r.ok and res.get("status") == 200:
-            return pd.DataFrame(res.get("data", []))
-        msg = str(res.get("msg", "")).strip().lower()
-        quota_exhausted = res.get("status") == 402 or "reach the upper limit" in msg
-        logger.warning("FinMind API rejected dataset %s for %s: status=%s message=%s", dataset, data_id, res.get("status"), res.get("msg", ""))
-        if (
-            isinstance(token, TokenRotator)
-            and (quota_exhausted or "token is illegal" in msg)
-        ):
-            if not getattr(token, "_quota_pool_reported", False):
-                token._quota_pool_reported = True
-                token._quota_snapshots = log_quota_pool(token, dataset, data_id)
-        if isinstance(token, TokenRotator) and ("token is illegal" in msg or quota_exhausted):
-            token.retire(request_token)
-            if token.count:
-                return fetch_data(dataset, data_id, start_date, end_date, token)
-            snapshots = getattr(token, "_quota_snapshots", [])
-            all_zero = bool(snapshots) and all(
-                item.get("remaining") == 0 for item in snapshots
+    rate_limit_attempt = 0
+
+    while True:
+        params = {
+            "dataset": dataset,
+            "start_date": start_date,
+            "end_date": end_date,
+        }
+        if data_id:
+            params["data_id"] = data_id
+        if request_token:
+            params["token"] = request_token
+
+        try:
+            r = requests.get(FINMIND_URL, params=params, timeout=60)
+            res = r.json()
+            if r.ok and res.get("status") == 200:
+                return pd.DataFrame(res.get("data", []))
+
+            msg = str(res.get("msg", "")).strip().lower()
+            quota_limited = res.get("status") == 402 or "reach the upper limit" in msg
+            token_illegal = "token is illegal" in msg
+            logger.warning(
+                "FinMind API rejected dataset %s for %s: status=%s message=%s",
+                dataset, data_id, res.get("status"), res.get("msg", ""),
             )
-            state = "quota exhausted" if all_zero else "quota status mismatch"
-            logger.error(
-                "FINMIND_STOP_RUN: %s after all configured tokens rejected "
-                "dataset=%s data_id=%s",
-                state,
-                dataset,
-                data_id,
-            )
-            raise FinMindQuotaExhausted(
-                f"FINMIND_STOP_RUN: {state}; dataset={dataset}; data_id={data_id}"
-            )
-        logger.warning(f"FinMind API return status {res.get('status')} for dataset {dataset}: {res.get('msg')}")
-        return pd.DataFrame()
-    except FinMindQuotaExhausted:
-        raise
-    except Exception as e:
-        # Never log requests' URL, because it may contain the token query parameter.
-        logger.error(f"Error fetching dataset {dataset} for {data_id}: {type(e).__name__}: request failed")
-        return pd.DataFrame()
+
+            if isinstance(token, TokenRotator) and token_illegal:
+                token.retire(request_token)
+                if token.count:
+                    request_token = token.next()
+                    rate_limit_attempt = 0
+                    continue
+                raise FinMindQuotaExhausted(
+                    f"FINMIND_STOP_RUN: all tokens rejected; dataset={dataset}; data_id={data_id}"
+                )
+
+            if quota_limited:
+                snapshot = quota_snapshot(request_token)
+                remaining = snapshot.get("remaining")
+                if remaining is not None and remaining > 0 and rate_limit_attempt < len(backoff_seconds):
+                    delay = backoff_seconds[rate_limit_attempt]
+                    rate_limit_attempt += 1
+                    logger.warning(
+                        "FinMind rate-limited %s/%s while quota remains=%s; "
+                        "retrying same token after %ss",
+                        dataset, data_id, remaining, delay,
+                    )
+                    time.sleep(delay)
+                    continue
+
+                if isinstance(token, TokenRotator):
+                    token.retire(request_token)
+                    if token.count:
+                        request_token = token.next()
+                        rate_limit_attempt = 0
+                        continue
+                raise FinMindQuotaExhausted(
+                    f"FINMIND_STOP_RUN: quota unavailable after backoff; "
+                    f"dataset={dataset}; data_id={data_id}"
+                )
+
+            return pd.DataFrame()
+        except FinMindQuotaExhausted:
+            raise
+        except Exception as e:
+            # Never log requests' URL, because it may contain the token query parameter.
+            logger.error(f"Error fetching dataset {dataset} for {data_id}: {type(e).__name__}: request failed")
+            return pd.DataFrame()
 
 def to_stage1_date(date_str):
     """Convert YYYY-MM-DD to 'YY/MM/DD"""
