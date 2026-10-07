@@ -16,14 +16,18 @@ from price_cache import cached_dataset, cached_price
 from token_env import TokenRotator
 load_dotenv()
 
-COLUMNS = ["stock_code", "company_name", "季度", "股本_億", "財報_評分",
-           "季度股價_元_收盤", "季度股價_元_平均", "季度股價_元_漲跌", "季度股價_元_漲跌_pct",
-           "獲利金額_億_營業_收入", "獲利金額_億_營業_毛利", "獲利金額_億_營業_利益",
-           "獲利金額_億_業外_損益", "獲利金額_億_稅後_淨利",
-           "獲利率_pct_營業_毛利", "獲利率_pct_營業_利益", "獲利率_pct_業外_損益", "獲利率_pct_稅後_淨利",
-           "單季_roe_pct", "年估_roe_pct", "單季_roa_pct", "年估_roa_pct",
-           "eps_元_稅後_eps", "eps_元_年增_元", "bps_元",
-           "file_type", "source_file", "download_success", "download_timestamp", "process_timestamp", "stage1_process_timestamp"]
+COLUMNS = [
+    "stock_code", "company_name", "季度", "股本_億", "財報_評分",
+    "季度股價_元_收盤", "季度股價_元_平均", "季度股價_元_漲跌", "季度股價_元_漲跌_pct",
+    "獲利金額_億_營業_收入", "獲利金額_億_營業_毛利", "獲利金額_億_營業_利益",
+    "獲利金額_億_業外_損益", "獲利金額_億_稅後_淨利",
+    "獲利率_pct_營業_毛利", "獲利率_pct_營業_利益", "獲利率_pct_業外_損益", "獲利率_pct_稅後_淨利",
+    "單季_ROE_pct", "年化_ROE_pct", "單季_ROA_pct", "年化_ROA_pct",
+    "eps_元_稅後_eps", "eps_元_年增_元", "bps_元",
+    "成交價_成交張數", "昨收_成交金額", "漲跌價_成交筆數", "漲跌幅_成交均張", "振幅_成交均價",
+    "開盤_淨值\u00a0_折溢價_pct", "最高_淨值\u00a0_折溢價_pct", "最低_淨值\u00a0_折溢價_pct",
+    "file_type", "source_file", "download_success", "download_timestamp", "process_timestamp", "stage1_process_timestamp",
+]
 
 
 def index_by_date(records):
@@ -101,13 +105,17 @@ def build(stock_id, name, fin_records, bal_records, prices):
             "獲利率_pct_營業_利益": round(op_income / revenue * 100, 2) if op_income is not None and revenue else np.nan,
             "獲利率_pct_業外_損益": round(non_operating / revenue * 100, 2) if pd.notna(non_operating) and revenue else np.nan,
             "獲利率_pct_稅後_淨利": round(net_income / revenue * 100, 2) if net_income is not None and revenue else np.nan,
-            "單季_roe_pct": round(net_income / equity * 100, 2) if net_income is not None and equity else np.nan,
-            "年估_roe_pct": round(net_income * 4 / equity * 100, 2) if net_income is not None and equity else np.nan,
-            "單季_roa_pct": round(net_income / assets * 100, 2) if net_income is not None and assets else np.nan,
-            "年估_roa_pct": round(net_income * 4 / assets * 100, 2) if net_income is not None and assets else np.nan,
+            "單季_ROE_pct": round(net_income / equity * 100, 2) if net_income is not None and equity else np.nan,
+            "年化_ROE_pct": round(net_income * 4 / equity * 100, 2) if net_income is not None and equity else np.nan,
+            "單季_ROA_pct": round(net_income / assets * 100, 2) if net_income is not None and assets else np.nan,
+            "年化_ROA_pct": round(net_income * 4 / assets * 100, 2) if net_income is not None and assets else np.nan,
             "eps_元_稅後_eps": round(eps, 2) if eps is not None else np.nan,
             "eps_元_年增_元": round(eps - prior_eps, 2) if eps is not None and prior_eps is not None else np.nan,
             "bps_元": round(equity / shares, 2) if equity and shares else np.nan,
+            "成交價_成交張數": np.nan, "昨收_成交金額": np.nan, "漲跌價_成交筆數": np.nan,
+            "漲跌幅_成交均張": np.nan, "振幅_成交均價": np.nan,
+            "開盤_淨值\u00a0_折溢價_pct": np.nan, "最高_淨值\u00a0_折溢價_pct": np.nan,
+            "最低_淨值\u00a0_折溢價_pct": np.nan,
             "file_type": "StockBzPerformance1",
             "source_file": f"FinMind_API_TaiwanStockFinancialStatements_{str(stock_id).zfill(4)}",
             "download_success": True, "download_timestamp": timestamp,
