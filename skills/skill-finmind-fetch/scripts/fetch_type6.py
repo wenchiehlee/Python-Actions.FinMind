@@ -19,12 +19,20 @@ from price_cache import cached_dataset, cached_price
 from token_env import TokenRotator
 load_dotenv()
 
-COLUMNS = ["stock_code", "company_name", "年度", "收盤_價格_元", "漲跌_價格_元", "漲跌_pct",
-           "政府公營機構_pct", "金融機構_pct", "證券投信_pct",
-           "僑外投資_僑外_pct", "僑外投資_證券_pct", "僑外投資_僑外自然人_pct", "僑外投資_合計_pct",
-           "本國金融機構_金融機構_pct", "本國金融機構_證券投信_pct", "本國金融機構_合計_pct",
-           "本國法人_公司法人_pct", "本國法人_其他法人_pct", "本國法人_合計_pct", "本國自然人_個人_pct",
-           "file_type", "source_file", "download_success", "download_timestamp", "process_timestamp", "stage1_process_timestamp"]
+COLUMNS = [
+    "stock_code", "company_name", "年度", "當年股價_收盤", "當年股價_漲跌_元", "當年股價_漲跌_pct",
+    "各類型股東持股比例_pct_政府_公營_機構", "各類型股東持股比例_pct_僑外投資",
+    "各類型股東持股比例_pct_僑外投資.1", "各類型股東持股比例_pct_僑外投資.2",
+    "各類型股東持股比例_pct_僑外投資.3", "各類型股東持股比例_pct_僑外投資.4",
+    "各類型股東持股比例_pct_本國金融機構", "各類型股東持股比例_pct_本國金融機構.1",
+    "各類型股東持股比例_pct_本國金融機構.2", "各類型股東持股比例_pct_本國法人",
+    "各類型股東持股比例_pct_本國法人.1", "各類型股東持股比例_pct_本國法人.2",
+    "各類型股東持股比例_pct_本國_自然人_個人", "各類型股東持股比例_pct_庫藏_股票",
+    "成交價_成交張數", "昨收_成交金額", "漲跌價_成交筆數", "漲跌幅_成交均張", "振幅_成交均價",
+    "開盤_淨值\u00a0_折溢價_pct", "最高_淨值\u00a0_折溢價_pct", "最低_淨值\u00a0_折溢價_pct",
+    "開盤_PBR", "最高_PER", "最低_PEG",
+    "file_type", "source_file", "download_success", "download_timestamp", "process_timestamp", "stage1_process_timestamp",
+]
 
 
 def price_by_year(prices):
@@ -56,14 +64,20 @@ def build(stock_id, name, shareholding, prices):
         foreign_ratio = snap.get("ForeignInvestmentSharesRatio")
         row = {
             "stock_code": str(stock_id).zfill(4), "company_name": name, "年度": year,
-            "收盤_價格_元": close, "漲跌_價格_元": change,
-            "漲跌_pct": round(change / previous_close * 100, 2) if pd.notna(change) and previous_close else np.nan,
-            "政府公營機構_pct": np.nan, "金融機構_pct": np.nan, "證券投信_pct": np.nan,
-            "僑外投資_僑外_pct": np.nan, "僑外投資_證券_pct": np.nan, "僑外投資_僑外自然人_pct": np.nan,
-            "僑外投資_合計_pct": round(foreign_ratio, 2) if pd.notna(foreign_ratio) else np.nan,
-            "本國金融機構_金融機構_pct": np.nan, "本國金融機構_證券投信_pct": np.nan, "本國金融機構_合計_pct": np.nan,
-            "本國法人_公司法人_pct": np.nan, "本國法人_其他法人_pct": np.nan, "本國法人_合計_pct": np.nan,
-            "本國自然人_個人_pct": np.nan,
+            "當年股價_收盤": close, "當年股價_漲跌_元": change,
+            "當年股價_漲跌_pct": round(change / previous_close * 100, 2) if pd.notna(change) and previous_close else np.nan,
+            "各類型股東持股比例_pct_政府_公營_機構": np.nan,
+            "各類型股東持股比例_pct_僑外投資": np.nan, "各類型股東持股比例_pct_僑外投資.1": np.nan,
+            "各類型股東持股比例_pct_僑外投資.2": np.nan, "各類型股東持股比例_pct_僑外投資.3": np.nan,
+            "各類型股東持股比例_pct_僑外投資.4": round(foreign_ratio, 2) if pd.notna(foreign_ratio) else np.nan,
+            "各類型股東持股比例_pct_本國金融機構": np.nan, "各類型股東持股比例_pct_本國金融機構.1": np.nan,
+            "各類型股東持股比例_pct_本國金融機構.2": np.nan, "各類型股東持股比例_pct_本國法人": np.nan,
+            "各類型股東持股比例_pct_本國法人.1": np.nan, "各類型股東持股比例_pct_本國法人.2": np.nan,
+            "各類型股東持股比例_pct_本國_自然人_個人": np.nan, "各類型股東持股比例_pct_庫藏_股票": np.nan,
+            "成交價_成交張數": np.nan, "昨收_成交金額": np.nan, "漲跌價_成交筆數": np.nan,
+            "漲跌幅_成交均張": np.nan, "振幅_成交均價": np.nan, "開盤_淨值\u00a0_折溢價_pct": np.nan,
+            "最高_淨值\u00a0_折溢價_pct": np.nan, "最低_淨值\u00a0_折溢價_pct": np.nan,
+            "開盤_PBR": np.nan, "最高_PER": np.nan, "最低_PEG": np.nan,
             "file_type": "EquityDistribution",
             "source_file": f"FinMind_API_TaiwanStockShareholding_{str(stock_id).zfill(4)}",
             "download_success": True, "download_timestamp": timestamp,
