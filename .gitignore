@@ -17,3 +17,9 @@ auction_data.csv
 cleaned_auction_data.csv
 holidays.csv
 PER_PBR/
+
+# Publish stage1 CSVs while keeping other data files local.
+data/*
+!data/stage1_raw/
+data/stage1_raw/*
+!data/stage1_raw/*.csv
