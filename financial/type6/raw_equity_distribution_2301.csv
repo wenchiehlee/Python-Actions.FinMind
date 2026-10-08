@@ -1,10 +1,10 @@
-﻿stock_code,company_name,年度,收盤_價格_元,漲跌_價格_元,漲跌_pct,政府公營機構_pct,金融機構_pct,證券投信_pct,僑外投資_僑外_pct,僑外投資_證券_pct,僑外投資_僑外自然人_pct,僑外投資_合計_pct,本國金融機構_金融機構_pct,本國金融機構_證券投信_pct,本國金融機構_合計_pct,本國法人_公司法人_pct,本國法人_其他法人_pct,本國法人_合計_pct,本國自然人_個人_pct,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
-2301,光寶科,2018,40.6,,,,,,,,,49.65,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
-2301,光寶科,2019,49.35,8.75,21.55,,,,,,,59.17,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
-2301,光寶科,2020,49.8,0.44999999999999574,0.91,,,,,,,49.97,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
-2301,光寶科,2021,63.8,14.0,28.11,,,,,,,49.05,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
-2301,光寶科,2022,63.8,0.0,0.0,,,,,,,46.24,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
-2301,光寶科,2023,117.0,53.2,83.39,,,,,,,37.48,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
-2301,光寶科,2024,99.5,-17.5,-14.96,,,,,,,26.03,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
-2301,光寶科,2025,163.5,64.0,64.32,,,,,,,32.58,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
-2301,光寶科,2026,284.5,121.0,74.01,,,,,,,43.17,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
+﻿stock_code,company_name,年度,當年股價_收盤,當年股價_漲跌_元,當年股價_漲跌_pct,各類型股東持股比例_pct_政府_公營_機構,各類型股東持股比例_pct_僑外投資,各類型股東持股比例_pct_僑外投資.1,各類型股東持股比例_pct_僑外投資.2,各類型股東持股比例_pct_僑外投資.3,各類型股東持股比例_pct_僑外投資.4,各類型股東持股比例_pct_本國金融機構,各類型股東持股比例_pct_本國金融機構.1,各類型股東持股比例_pct_本國金融機構.2,各類型股東持股比例_pct_本國法人,各類型股東持股比例_pct_本國法人.1,各類型股東持股比例_pct_本國法人.2,各類型股東持股比例_pct_本國_自然人_個人,各類型股東持股比例_pct_庫藏_股票,成交價_成交張數,昨收_成交金額,漲跌價_成交筆數,漲跌幅_成交均張,振幅_成交均價,開盤_淨值 _折溢價_pct,最高_淨值 _折溢價_pct,最低_淨值 _折溢價_pct,開盤_PBR,最高_PER,最低_PEG,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
+2301,光寶科,2018,40.6,,,,,,,,49.65,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
+2301,光寶科,2019,49.35,8.75,21.55,,,,,,59.17,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
+2301,光寶科,2020,49.8,0.44999999999999574,0.91,,,,,,49.97,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
+2301,光寶科,2021,63.8,14.0,28.11,,,,,,49.05,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
+2301,光寶科,2022,63.8,0.0,0.0,,,,,,46.24,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
+2301,光寶科,2023,117.0,53.2,83.39,,,,,,37.48,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
+2301,光寶科,2024,99.5,-17.5,-14.96,,,,,,26.03,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-09-22T11:34:55,2026-09-22T11:34:55,2026-09-22T11:34:55
+2301,光寶科,2025,163.5,64.0,64.32,,,,,,32.58,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-10-08T15:25:05,2026-10-08T15:25:05,2026-10-08T15:25:05
+2301,光寶科,2026,297.5,134.0,81.96,,,,,,43.35,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2301,True,2026-10-08T15:25:05,2026-10-08T15:25:05,2026-10-08T15:25:05

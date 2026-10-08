@@ -1,10 +1,10 @@
-﻿stock_code,company_name,年度,收盤_價格_元,漲跌_價格_元,漲跌_pct,政府公營機構_pct,金融機構_pct,證券投信_pct,僑外投資_僑外_pct,僑外投資_證券_pct,僑外投資_僑外自然人_pct,僑外投資_合計_pct,本國金融機構_金融機構_pct,本國金融機構_證券投信_pct,本國金融機構_合計_pct,本國法人_公司法人_pct,本國法人_其他法人_pct,本國法人_合計_pct,本國自然人_個人_pct,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
-3035,智原,2018,42.3,,,,,,,,,22.94,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
-3035,智原,2019,56.3,14.0,33.1,,,,,,,25.01,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
-3035,智原,2020,50.9,-5.399999999999999,-9.59,,,,,,,20.47,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
-3035,智原,2021,239.0,188.1,369.55,,,,,,,33.93,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
-3035,智原,2022,142.5,-96.5,-40.38,,,,,,,26.71,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
-3035,智原,2023,357.0,214.5,150.53,,,,,,,27.02,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
-3035,智原,2024,241.0,-116.0,-32.49,,,,,,,15.88,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
-3035,智原,2025,170.5,-70.5,-29.25,,,,,,,7.15,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
-3035,智原,2026,203.0,32.5,19.06,,,,,,,14.92,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+﻿stock_code,company_name,年度,當年股價_收盤,當年股價_漲跌_元,當年股價_漲跌_pct,各類型股東持股比例_pct_政府_公營_機構,各類型股東持股比例_pct_僑外投資,各類型股東持股比例_pct_僑外投資.1,各類型股東持股比例_pct_僑外投資.2,各類型股東持股比例_pct_僑外投資.3,各類型股東持股比例_pct_僑外投資.4,各類型股東持股比例_pct_本國金融機構,各類型股東持股比例_pct_本國金融機構.1,各類型股東持股比例_pct_本國金融機構.2,各類型股東持股比例_pct_本國法人,各類型股東持股比例_pct_本國法人.1,各類型股東持股比例_pct_本國法人.2,各類型股東持股比例_pct_本國_自然人_個人,各類型股東持股比例_pct_庫藏_股票,成交價_成交張數,昨收_成交金額,漲跌價_成交筆數,漲跌幅_成交均張,振幅_成交均價,開盤_淨值 _折溢價_pct,最高_淨值 _折溢價_pct,最低_淨值 _折溢價_pct,開盤_PBR,最高_PER,最低_PEG,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
+3035,智原,2018,42.3,,,,,,,,22.94,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+3035,智原,2019,56.3,14.0,33.1,,,,,,25.01,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+3035,智原,2020,50.9,-5.399999999999999,-9.59,,,,,,20.47,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+3035,智原,2021,239.0,188.1,369.55,,,,,,33.93,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+3035,智原,2022,142.5,-96.5,-40.38,,,,,,26.71,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+3035,智原,2023,357.0,214.5,150.53,,,,,,27.02,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+3035,智原,2024,241.0,-116.0,-32.49,,,,,,15.88,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+3035,智原,2025,170.5,-70.5,-29.25,,,,,,7.15,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59
+3035,智原,2026,203.0,32.5,19.06,,,,,,14.92,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_3035,True,2026-09-22T11:34:59,2026-09-22T11:34:59,2026-09-22T11:34:59

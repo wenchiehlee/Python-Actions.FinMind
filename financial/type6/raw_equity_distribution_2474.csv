@@ -1,10 +1,10 @@
-﻿stock_code,company_name,年度,收盤_價格_元,漲跌_價格_元,漲跌_pct,政府公營機構_pct,金融機構_pct,證券投信_pct,僑外投資_僑外_pct,僑外投資_證券_pct,僑外投資_僑外自然人_pct,僑外投資_合計_pct,本國金融機構_金融機構_pct,本國金融機構_證券投信_pct,本國金融機構_合計_pct,本國法人_公司法人_pct,本國法人_其他法人_pct,本國法人_合計_pct,本國自然人_個人_pct,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
-2474,可成,2018,225.0,,,,,,,,,65.45,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
-2474,可成,2019,227.0,2.0,0.89,,,,,,,63.29,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
-2474,可成,2020,206.0,-21.0,-9.25,,,,,,,50.44,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
-2474,可成,2021,156.5,-49.5,-24.03,,,,,,,46.4,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
-2474,可成,2022,169.0,12.5,7.99,,,,,,,44.83,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
-2474,可成,2023,194.0,25.0,14.79,,,,,,,35.85,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
-2474,可成,2024,194.0,0.0,0.0,,,,,,,36.4,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
-2474,可成,2025,208.0,14.0,7.22,,,,,,,22.57,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
-2474,可成,2026,210.0,2.0,0.96,,,,,,,14.02,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+﻿stock_code,company_name,年度,當年股價_收盤,當年股價_漲跌_元,當年股價_漲跌_pct,各類型股東持股比例_pct_政府_公營_機構,各類型股東持股比例_pct_僑外投資,各類型股東持股比例_pct_僑外投資.1,各類型股東持股比例_pct_僑外投資.2,各類型股東持股比例_pct_僑外投資.3,各類型股東持股比例_pct_僑外投資.4,各類型股東持股比例_pct_本國金融機構,各類型股東持股比例_pct_本國金融機構.1,各類型股東持股比例_pct_本國金融機構.2,各類型股東持股比例_pct_本國法人,各類型股東持股比例_pct_本國法人.1,各類型股東持股比例_pct_本國法人.2,各類型股東持股比例_pct_本國_自然人_個人,各類型股東持股比例_pct_庫藏_股票,成交價_成交張數,昨收_成交金額,漲跌價_成交筆數,漲跌幅_成交均張,振幅_成交均價,開盤_淨值 _折溢價_pct,最高_淨值 _折溢價_pct,最低_淨值 _折溢價_pct,開盤_PBR,最高_PER,最低_PEG,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
+2474,可成,2018,225.0,,,,,,,,65.45,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+2474,可成,2019,227.0,2.0,0.89,,,,,,63.29,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+2474,可成,2020,206.0,-21.0,-9.25,,,,,,50.44,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+2474,可成,2021,156.5,-49.5,-24.03,,,,,,46.4,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+2474,可成,2022,169.0,12.5,7.99,,,,,,44.83,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+2474,可成,2023,194.0,25.0,14.79,,,,,,35.85,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+2474,可成,2024,194.0,0.0,0.0,,,,,,36.4,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+2474,可成,2025,208.0,14.0,7.22,,,,,,22.57,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51
+2474,可成,2026,210.0,2.0,0.96,,,,,,14.02,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2474,True,2026-09-22T11:32:51,2026-09-22T11:32:51,2026-09-22T11:32:51

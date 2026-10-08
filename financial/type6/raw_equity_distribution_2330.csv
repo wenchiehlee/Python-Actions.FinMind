@@ -1,10 +1,10 @@
-﻿stock_code,company_name,年度,收盤_價格_元,漲跌_價格_元,漲跌_pct,政府公營機構_pct,金融機構_pct,證券投信_pct,僑外投資_僑外_pct,僑外投資_證券_pct,僑外投資_僑外自然人_pct,僑外投資_合計_pct,本國金融機構_金融機構_pct,本國金融機構_證券投信_pct,本國金融機構_合計_pct,本國法人_公司法人_pct,本國法人_其他法人_pct,本國法人_合計_pct,本國自然人_個人_pct,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
-2330,台積電,2018,225.5,,,,,,,,,77.25,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
-2330,台積電,2019,331.0,105.5,46.78,,,,,,,78.37,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
-2330,台積電,2020,530.0,199.0,60.12,,,,,,,76.51,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
-2330,台積電,2021,615.0,85.0,16.04,,,,,,,75.06,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
-2330,台積電,2022,448.5,-166.5,-27.07,,,,,,,70.87,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
-2330,台積電,2023,593.0,144.5,32.22,,,,,,,73.05,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
-2330,台積電,2024,1075.0,482.0,81.28,,,,,,,73.62,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
-2330,台積電,2025,1550.0,475.0,44.19,,,,,,,72.76,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
-2330,台積電,2026,2460.0,910.0,58.71,,,,,,,69.22,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
+﻿stock_code,company_name,年度,當年股價_收盤,當年股價_漲跌_元,當年股價_漲跌_pct,各類型股東持股比例_pct_政府_公營_機構,各類型股東持股比例_pct_僑外投資,各類型股東持股比例_pct_僑外投資.1,各類型股東持股比例_pct_僑外投資.2,各類型股東持股比例_pct_僑外投資.3,各類型股東持股比例_pct_僑外投資.4,各類型股東持股比例_pct_本國金融機構,各類型股東持股比例_pct_本國金融機構.1,各類型股東持股比例_pct_本國金融機構.2,各類型股東持股比例_pct_本國法人,各類型股東持股比例_pct_本國法人.1,各類型股東持股比例_pct_本國法人.2,各類型股東持股比例_pct_本國_自然人_個人,各類型股東持股比例_pct_庫藏_股票,成交價_成交張數,昨收_成交金額,漲跌價_成交筆數,漲跌幅_成交均張,振幅_成交均價,開盤_淨值 _折溢價_pct,最高_淨值 _折溢價_pct,最低_淨值 _折溢價_pct,開盤_PBR,最高_PER,最低_PEG,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
+2330,台積電,2018,225.5,,,,,,,,77.25,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
+2330,台積電,2019,331.0,105.5,46.78,,,,,,78.37,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
+2330,台積電,2020,530.0,199.0,60.12,,,,,,76.51,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
+2330,台積電,2021,615.0,85.0,16.04,,,,,,75.06,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
+2330,台積電,2022,448.5,-166.5,-27.07,,,,,,70.87,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
+2330,台積電,2023,593.0,144.5,32.22,,,,,,73.05,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
+2330,台積電,2024,1075.0,482.0,81.28,,,,,,73.62,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-09-22T11:31:40,2026-09-22T11:31:40,2026-09-22T11:31:40
+2330,台積電,2025,1550.0,475.0,44.19,,,,,,72.76,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-10-08T15:25:18,2026-10-08T15:25:18,2026-10-08T15:25:18
+2330,台積電,2026,2550.0,1000.0,64.52,,,,,,69.19,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_2330,True,2026-10-08T15:25:18,2026-10-08T15:25:18,2026-10-08T15:25:18
