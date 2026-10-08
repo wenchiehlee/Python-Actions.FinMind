@@ -1,25 +1,23 @@
-# Local credentials and Python artifacts
+/site
+/site_test_font
+/overrides
+.DS_Store
+page-authors.json
+*.bak
+__pycache__
 .env
-.env.*
-!.env.example
-__pycache__/
-*.py[cod]
-.pytest_cache/
-*.env~
-data/StockID_TWSE_TPEX.csv
-financial/.price_cache/
+/data/reports/
+/logs
+/cache
+quality_check.txt
+old_files_report.txt
+quarantine_output.txt
+/docs/overrides/hooks/__pycache__
+*.log
+.vscode/
+.idea/
+.gemini/
+.ipynb_checkpoints/
 
-# Local run outputs / scratch data
-output*.log
-StockID_TWSE_TPEX.csv
-StockID_TWSE_TPEX_focus.csv
-auction_data.csv
-cleaned_auction_data.csv
-holidays.csv
-PER_PBR/
-
-# Publish stage1 CSVs while keeping other data files local.
-data/*
-!data/stage1_raw/
-data/stage1_raw/*
-!data/stage1_raw/*.csv
+.env*
+.claude/
