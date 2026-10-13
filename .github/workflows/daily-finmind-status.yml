@@ -7,11 +7,16 @@ on:
     # same shared FINMIND_TOKEN1-6 pool) to Taiwan's quiet overnight window instead.
     # GitHub Actions cron is always UTC with no timezone setting, so day-of-week/
     # day-of-month fields below are UTC, not Taiwan, days:
-    - cron: "30 16 * * *"    # Daily types (1,5,13,18) — Taiwan 00:30
+    - cron: "30 16 * * *"    # Daily types (1,5,13) — Taiwan 00:30
     - cron: "30 17 * * 0"    # Weekly types (4,6,7,8,9,11,14,17,19) — UTC Sunday 17:30 = Taiwan Monday 01:30
     - cron: "30 18 1 * *"    # Monthly types (12,15,16) — UTC day-of-month 1, 18:30 = Taiwan day 2, 02:30
                               # (cron can't express "last day of previous month", so this is the
                               # closest exact equivalent to "midnight-ish on the 1st, Taiwan time")
+    - cron: "30 19 * * *"    # Daily type 18 alone — Taiwan 03:30, separated from other daily fetches
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/daily-finmind-status.yml
   workflow_dispatch:
     inputs:
       types:
@@ -43,7 +48,6 @@ jobs:
       - name: Download observation list
         run: python Get觀察名單.py
       - name: Fetch FinMind CSV data
-        continue-on-error: true
         run: |
           TYPES_ARG=""
           if [ -n "${{ github.event.inputs.types }}" ]; then
@@ -53,7 +57,9 @@ jobs:
           elif [ "${{ github.event.schedule }}" = "30 18 1 * *" ]; then
             TYPES_ARG="--types 12,15,16"
           elif [ "${{ github.event.schedule }}" = "30 16 * * *" ]; then
-            TYPES_ARG="--types 1,5,13,18"
+            TYPES_ARG="--types 1,5,13"
+          elif [ "${{ github.event.schedule }}" = "30 19 * * *" ] || [ "${{ github.event_name }}" = "push" ]; then
+            TYPES_ARG="--types 18"
           fi
           python scripts/fetch_daily_finmind.py --stock-list StockID_TWSE_TPEX.csv $TYPES_ARG
       - name: Update README status
@@ -72,3 +78,11 @@ jobs:
           git add README.md financial/ data/stage1_raw/
           git diff --cached --quiet || git commit -m "chore: update daily FinMind status"
           git push
+      - name: Sync refreshed CSVs to biztrends.TW
+        if: always()
+        uses: BetaHuhn/repo-file-sync-action@latest
+        with:
+          GH_PAT: ${{ secrets.REPO_FILE_SYNC_WENCHIEHLEE_MONEY }}
+          CONFIG_PATH: .github/sync-to-biztrends.yml
+          COMMIT_EACH_FILE: false
+          SKIP_PR: true
