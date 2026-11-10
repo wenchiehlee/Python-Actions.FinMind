@@ -8,12 +8,21 @@ on:
     # GitHub Actions cron is always UTC with no timezone setting, so day-of-week/
     # day-of-month fields below are UTC, not Taiwan, days:
     - cron: "30 16 * * *"    # Daily types (1,5,13) — Taiwan 00:30
-    # Weekly types, split in two and kept away from the daily runs above/below. GitHub
+    # Weekly types are kept away from the daily runs above/below. GitHub
     # often starts scheduled runs hours late, so the old single Sunday 17:30 run landed in
     # the same hour as the daily 1,5,13 run, found the token pool exhausted, and skipped
     # every FinMind-API type (4,6,7,9,11,19) week after week.
-    - cron: "30 8 * * 6"     # Weekly part A (4,6,7,8)        — UTC Saturday 08:30 = Taiwan Saturday 16:30
-    - cron: "30 8 * * 0"     # Weekly part B (9,11,14,17,19)  — UTC Sunday 08:30 = Taiwan Sunday 16:30
+    # One FinMind-API type per run, 90 min apart: the 7-token hourly quota only covers about
+    # one full type (125 stocks x several datasets). Batching 3-5 types per run tripped the
+    # global rate-limit flag after the first type and skipped the rest (seen 2026-11-10).
+    - cron: "0 6 * * 6"      # Sat type 4   — UTC 06:00 = Taiwan 14:00
+    - cron: "30 7 * * 6"     # Sat type 6   — UTC 07:30 = Taiwan 15:30
+    - cron: "0 9 * * 6"      # Sat type 7   — UTC 09:00 = Taiwan 17:00
+    - cron: "30 10 * * 6"    # Sat type 8   — UTC 10:30 = Taiwan 18:30
+    - cron: "0 6 * * 0"      # Sun type 9   — UTC 06:00 = Taiwan 14:00
+    - cron: "30 7 * * 0"     # Sun type 11  — UTC 07:30 = Taiwan 15:30
+    - cron: "0 9 * * 0"      # Sun type 17  — UTC 09:00 = Taiwan 17:00
+    - cron: "30 10 * * 0"    # Sun types 19,14 (14 is local-only, built from type 13 data)
     - cron: "30 18 1 * *"    # Monthly types (12,15,16) — UTC day-of-month 1, 18:30 = Taiwan day 2, 02:30
                               # (cron can't express "last day of previous month", so this is the
                               # closest exact equivalent to "midnight-ish on the 1st, Taiwan time")
@@ -57,10 +66,20 @@ jobs:
           TYPES_ARG=""
           if [ -n "${{ github.event.inputs.types }}" ]; then
             TYPES_ARG="--types ${{ github.event.inputs.types }}"
-          elif [ "${{ github.event.schedule }}" = "30 8 * * 6" ]; then
-            TYPES_ARG="--types 4,6,7,8"
-          elif [ "${{ github.event.schedule }}" = "30 8 * * 0" ]; then
-            TYPES_ARG="--types 9,11,14,17,19"
+          else
+            case "${{ github.event.schedule }}" in
+              "0 6 * * 6")   TYPES_ARG="--types 4" ;;
+              "30 7 * * 6")  TYPES_ARG="--types 6" ;;
+              "0 9 * * 6")   TYPES_ARG="--types 7" ;;
+              "30 10 * * 6") TYPES_ARG="--types 8" ;;
+              "0 6 * * 0")   TYPES_ARG="--types 9" ;;
+              "30 7 * * 0")  TYPES_ARG="--types 11" ;;
+              "0 9 * * 0")   TYPES_ARG="--types 17" ;;
+              "30 10 * * 0") TYPES_ARG="--types 19,14" ;;
+            esac
+          fi
+          if [ -n "$TYPES_ARG" ]; then
+            :
           elif [ "${{ github.event.schedule }}" = "30 18 1 * *" ]; then
             TYPES_ARG="--types 12,15,16"
           elif [ "${{ github.event.schedule }}" = "30 16 * * *" ]; then
