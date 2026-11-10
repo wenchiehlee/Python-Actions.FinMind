@@ -1,10 +1,10 @@
 ﻿stock_code,company_name,年度,當年股價_收盤,當年股價_漲跌_元,當年股價_漲跌_pct,各類型股東持股比例_pct_政府_公營_機構,各類型股東持股比例_pct_僑外投資,各類型股東持股比例_pct_僑外投資.1,各類型股東持股比例_pct_僑外投資.2,各類型股東持股比例_pct_僑外投資.3,各類型股東持股比例_pct_僑外投資.4,各類型股東持股比例_pct_本國金融機構,各類型股東持股比例_pct_本國金融機構.1,各類型股東持股比例_pct_本國金融機構.2,各類型股東持股比例_pct_本國法人,各類型股東持股比例_pct_本國法人.1,各類型股東持股比例_pct_本國法人.2,各類型股東持股比例_pct_本國_自然人_個人,各類型股東持股比例_pct_庫藏_股票,成交價_成交張數,昨收_成交金額,漲跌價_成交筆數,漲跌幅_成交均張,振幅_成交均價,開盤_淨值 _折溢價_pct,最高_淨值 _折溢價_pct,最低_淨值 _折溢價_pct,開盤_PBR,最高_PER,最低_PEG,file_type,source_file,download_success,download_timestamp,process_timestamp,stage1_process_timestamp
-6510,精測,2018,520.0,,,,,,,,8.68,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-09-22T11:42:40,2026-09-22T11:42:40,2026-09-22T11:42:40
-6510,精測,2019,1030.0,510.0,98.08,,,,,,15.68,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-09-22T11:42:40,2026-09-22T11:42:40,2026-09-22T11:42:40
-6510,精測,2020,764.0,-266.0,-25.83,,,,,,10.14,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-09-22T11:42:40,2026-09-22T11:42:40,2026-09-22T11:42:40
-6510,精測,2021,711.0,-53.0,-6.94,,,,,,11.83,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-09-22T11:42:40,2026-09-22T11:42:40,2026-09-22T11:42:40
-6510,精測,2022,465.5,-245.5,-34.53,,,,,,8.44,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-09-22T11:42:40,2026-09-22T11:42:40,2026-09-22T11:42:40
-6510,精測,2023,564.0,98.5,21.16,,,,,,7.01,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-09-22T11:42:40,2026-09-22T11:42:40,2026-09-22T11:42:40
-6510,精測,2024,882.0,318.0,56.38,,,,,,18.97,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-09-22T11:42:40,2026-09-22T11:42:40,2026-09-22T11:42:40
-6510,精測,2025,2285.0,1403.0,159.07,,,,,,27.73,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-10-08T16:48:24+08:00,2026-10-08T16:49:37,2026-10-08T16:49:37
-6510,精測,2026,3320.0,1035.0,45.3,,,,,,17.91,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-10-08T16:48:24+08:00,2026-10-08T16:49:37,2026-10-08T16:49:37
+6510,精測,2018,520.0,,,,,,,,8.68,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
+6510,精測,2019,1030.0,510.0,98.08,,,,,,15.68,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
+6510,精測,2020,764.0,-266.0,-25.83,,,,,,10.14,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
+6510,精測,2021,711.0,-53.0,-6.94,,,,,,11.83,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
+6510,精測,2022,465.5,-245.5,-34.53,,,,,,8.44,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
+6510,精測,2023,564.0,98.5,21.16,,,,,,7.01,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
+6510,精測,2024,882.0,318.0,56.38,,,,,,18.97,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
+6510,精測,2025,2285.0,1403.0,159.07,,,,,,27.73,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
+6510,精測,2026,2785.0,500.0,21.88,,,,,,13.02,,,,,,,,,,,,,,,,,,,,EquityDistribution,FinMind_API_TaiwanStockShareholding_6510,True,2026-11-10T07:44:24,2026-11-10T07:44:24,2026-11-10T07:44:24
