@@ -8,7 +8,12 @@ on:
     # GitHub Actions cron is always UTC with no timezone setting, so day-of-week/
     # day-of-month fields below are UTC, not Taiwan, days:
     - cron: "30 16 * * *"    # Daily types (1,5,13) — Taiwan 00:30
-    - cron: "30 17 * * 0"    # Weekly types (4,6,7,8,9,11,14,17,19) — UTC Sunday 17:30 = Taiwan Monday 01:30
+    # Weekly types, split in two and kept away from the daily runs above/below. GitHub
+    # often starts scheduled runs hours late, so the old single Sunday 17:30 run landed in
+    # the same hour as the daily 1,5,13 run, found the token pool exhausted, and skipped
+    # every FinMind-API type (4,6,7,9,11,19) week after week.
+    - cron: "30 8 * * 6"     # Weekly part A (4,6,7,8)        — UTC Saturday 08:30 = Taiwan Saturday 16:30
+    - cron: "30 8 * * 0"     # Weekly part B (9,11,14,17,19)  — UTC Sunday 08:30 = Taiwan Sunday 16:30
     - cron: "30 18 1 * *"    # Monthly types (12,15,16) — UTC day-of-month 1, 18:30 = Taiwan day 2, 02:30
                               # (cron can't express "last day of previous month", so this is the
                               # closest exact equivalent to "midnight-ish on the 1st, Taiwan time")
@@ -52,8 +57,10 @@ jobs:
           TYPES_ARG=""
           if [ -n "${{ github.event.inputs.types }}" ]; then
             TYPES_ARG="--types ${{ github.event.inputs.types }}"
-          elif [ "${{ github.event.schedule }}" = "30 17 * * 0" ]; then
-            TYPES_ARG="--types 4,6,7,8,9,11,14,17,19"
+          elif [ "${{ github.event.schedule }}" = "30 8 * * 6" ]; then
+            TYPES_ARG="--types 4,6,7,8"
+          elif [ "${{ github.event.schedule }}" = "30 8 * * 0" ]; then
+            TYPES_ARG="--types 9,11,14,17,19"
           elif [ "${{ github.event.schedule }}" = "30 18 1 * *" ]; then
             TYPES_ARG="--types 12,15,16"
           elif [ "${{ github.event.schedule }}" = "30 16 * * *" ]; then
